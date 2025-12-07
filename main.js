@@ -64,6 +64,8 @@ function resetGame() {
 }
 
 function play() {
+    soundManager.init(); // Init context context on user gesture
+    soundManager.startMusic();
     document.getElementById('overlay').classList.add('hidden');
     resetGame();
 }
@@ -93,10 +95,12 @@ function drop() {
         return true;
     } else {
         board.freeze(board.piece);
+        soundManager.drop(); // SFX
 
         // Remove lines
         const lines = board.clearLines();
         if (lines > 0) {
+            soundManager.clear(); // SFX
             accountValues.score += getLineScore(lines, accountValues.level);
             accountValues.lines += lines;
             accountValues.level = Math.floor(accountValues.lines / 10) + 1;
@@ -144,6 +148,7 @@ function updateAccount(key, value) {
 
 function gameOver() {
     cancelAnimationFrame(requestId);
+    soundManager.gameOver();
 
     document.getElementById('overlay-title').textContent = TEXTS.gameOver;
     document.getElementById('overlay-message').textContent = `${TEXTS.scoreMessage}${accountValues.score}`;
@@ -154,6 +159,13 @@ function gameOver() {
 // Event Listeners
 document.getElementById('start-btn').addEventListener('click', () => {
     play();
+});
+
+document.getElementById('mute-btn').addEventListener('click', (e) => {
+    const isMuted = soundManager.toggleMute();
+    e.target.textContent = isMuted ? '🔇' : '🔊';
+    // Prevent focus so spacebar doesn't trigger button
+    e.target.blur();
 });
 
 // Controls
@@ -172,6 +184,7 @@ document.addEventListener('keydown', event => {
                 updateAccount('score', accountValues.score);
                 p = MOVES[40](board.piece);
             }
+            soundManager.drop(); // SFX Hard Drop
             // Force lock in next loop or manually call drop logic
             // To simplify, let's just let the next tick handle the freeze or force a drop cycle
             // Better: Loop move down until invalid, then freeze immediately
@@ -191,6 +204,8 @@ document.addEventListener('keydown', event => {
 
         } else if (board.valid(p)) {
             board.piece.move(p);
+            if (event.keyCode === 38) soundManager.rotate();
+            else if (event.keyCode !== 40) soundManager.move(); // Don't sound on soft drop hold
         }
     }
 });

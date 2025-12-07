@@ -36,6 +36,32 @@ body {
     width: 100%;
 }
 
+header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    box-shadow: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: none;
+}
+
 header h1 {
     font-size: 3rem;
     font-weight: 900;

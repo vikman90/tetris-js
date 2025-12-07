@@ -1,0 +1,190 @@
+:root {
+    --bg-color: #0f172a;
+    --board-bg: #1e293b;
+    --text-color: #f8fafc;
+    --accent-color: #8b5cf6;
+    --accent-hover: #7c3aed;
+    --grid-line: rgba(255, 255, 255, 0.05);
+    --neon-glow: 0 0 10px rgba(139, 92, 246, 0.5);
+    --font-main: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.2rem;
+    background: linear-gradient(135deg, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.game-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 120px;
+}
+
+.score-box,
+.level-box,
+.next-piece-box {
+    background: var(--board-bg);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.score-box h3,
+.level-box h3,
+.next-piece-box h3 {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.score-box span,
+.level-box span {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.board-wrapper {
+    position: relative;
+    padding: 2px;
+    /* Border width */
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+#board {
+    display: block;
+    background-color: var(--board-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Grid effect via background pattern could go here, but canvas is easier */
+}
+
+/* UI Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-content {
+    text-align: center;
+}
+
+.overlay-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.overlay-content p {
+    color: #cbd5e1;
+    margin-bottom: 2rem;
+}
+
+button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: all 0.2s;
+    box-shadow: var(--neon-glow);
+}
+
+button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.controls-hint {
+    color: #64748b;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .game-container {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .game-info {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+    }
+
+    #board {
+        width: 250px;
+        height: 500px;
+    }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <h1>TETRIS</h1>
+        </header>
+
+        <div class="game-container">
+            <div class="game-info">
+                <div class="score-box">
+                    <h3>PUNTUACIÓN</h3>
+                    <span id="score">0</span>
+                </div>
+                <div class="level-box">
+                    <h3>NIVEL</h3>
+                    <span id="level">1</span>
+                </div>
+                <div class="next-piece-box">
+                    <h3>SIGUIENTE</h3>
+                    <canvas id="next-piece" width="80" height="80"></canvas>
+                </div>
+            </div>
+
+            <div class="board-wrapper">
+                <canvas id="board" width="300" height="600"></canvas>
+
+                <div id="overlay" class="overlay">
+                    <div class="overlay-content">
+                        <h2 id="overlay-title">TETRIS</h2>
+                        <p id="overlay-message">Presiona Start para jugar</p>
+                        <button id="start-btn">JUGAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-hint">
+            <p>Flechas para mover • ↑ Rotar • Espacio Caída rápida</p>
+        </div>
+    </div>
+
+    <script src="tetrominoes.js"></script>
+    <script src="board.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

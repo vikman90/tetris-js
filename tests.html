@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tetris Logic Tests</title>
+    <style>
+        body {
+            background: #1e293b;
+            color: #f8fafc;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        .pass {
+            color: #4ade80;
+        }
+
+        .fail {
+            color: #ef4444;
+        }
+
+        h1 {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tetris Logic Tests</h1>
+    <div id="results">Running tests...</div>
+
+    <!-- Load Game Logic -->
+    <script src="tetrominoes.js"></script>
+    <script src="board.js"></script>
+
+    <script>
+        // Simple Test Framework
+        const results = document.getElementById('results');
+        let passed = 0;
+        let failed = 0;
+        let logs = [];
+
+        function assert(condition, message) {
+            if (condition) {
+                passed++;
+                logs.push(`<div class="pass">✓ PASS: ${message}</div>`);
+            } else {
+                failed++;
+                logs.push(`<div class="fail">✕ FAIL: ${message}</div>`);
+                console.error('FAIL:', message);
+            }
+        }
+
+        function report() {
+            results.innerHTML = logs.join('') +
+                `<br><strong>Total: ${passed + failed} | Passed: ${passed} | Failed: ${failed}</strong>`;
+        }
+
+        // Mocks
+        const mockCtx = {
+            canvas: { width: 300, height: 600 },
+            clearRect: () => { },
+            fillRect: () => { },
+            strokeRect: () => { },
+            beginPath: () => { },
+            moveTo: () => { },
+            lineTo: () => { },
+            stroke: () => { },
+            fillStyle: '',
+            lineWidth: 0,
+            strokeStyle: ''
+        };
+
+        const mockNextCtx = {
+            canvas: { width: 80, height: 80 },
+            clearRect: () => { },
+            fillRect: () => { },
+            strokeRect: () => { },
+            fillStyle: '',
+            lineWidth: 0,
+            strokeStyle: ''
+        };
+
+        // --- TESTS ---
+
+        function runTests() {
+            try {
+                testBoardInitialization();
+                testCollision();
+                testLineClearing();
+            } catch (e) {
+                logs.push(`<div class="fail">CRITICAL ERROR: ${e.message}</div>`);
+                console.error(e);
+            }
+            report();
+        }
+
+        function testBoardInitialization() {
+            const board = new Board(mockCtx, mockNextCtx);
+            assert(board.grid.length === 20, 'Grid should have 20 rows');
+            assert(board.grid[0].length === 10, 'Grid should have 10 columns');
+            assert(board.grid[19][9] === 0, 'Grid should be initialized with zeros');
+        }
+
+        function testCollision() {
+            const board = new Board(mockCtx, mockNextCtx);
+            board.reset();
+
+            // Move piece to the bottom (floor collision)
+            // Piece usually spawns around y=0. Board height is 20.
+            // Let's create a custom piece at y=19
+            board.piece.y = 19;
+
+            // Check falling one more step (y=20)
+            let p = { ...board.piece, y: 20 };
+            assert(board.valid(p) === false, 'Should detect floor collision at y=20');
+
+            // Check wall collision (left)
+            board.piece.y = 5;
+            board.piece.x = -1;
+            assert(board.valid(board.piece) === false, 'Should detect left wall collision');
+
+            // Check wall collision (right)
+            board.piece.x = 10;
+            assert(board.valid(board.piece) === false, 'Should detect right wall collision');
+        }
+
+        function testLineClearing() {
+            const board = new Board(mockCtx, mockNextCtx);
+
+            // Manually fill the last row
+            board.grid[19] = Array(10).fill(1); // Fill with type 1
+
+            const linesCleared = board.clearLines();
+            assert(linesCleared === 1, 'Should clear 1 line');
+
+            // Check if line is replaced by zeros (new top line)
+            // And previous row 19 should now be empty (since it was replaced by row 18 which was empty)
+            const isRowEmpty = board.grid[19].every(cell => cell === 0);
+            assert(isRowEmpty, 'New bottom row should be empty after clearing one filled row with empty board above');
+        }
+
+        // Run
+        runTests();
+    </script>
+</body>
+
+</html>

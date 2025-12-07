@@ -20,15 +20,15 @@
         <div class="game-container">
             <div class="game-info">
                 <div class="score-box">
-                    <h3>PUNTUACIÓN</h3>
+                    <h3 id="lbl-score">PUNTUACIÓN</h3>
                     <span id="score">0</span>
                 </div>
                 <div class="level-box">
-                    <h3>NIVEL</h3>
+                    <h3 id="lbl-level">NIVEL</h3>
                     <span id="level">1</span>
                 </div>
                 <div class="next-piece-box">
-                    <h3>SIGUIENTE</h3>
+                    <h3 id="lbl-next">SIGUIENTE</h3>
                     <canvas id="next-piece" width="80" height="80"></canvas>
                 </div>
             </div>
@@ -47,12 +47,13 @@
         </div>
 
         <div class="controls-hint">
-            <p>Flechas para mover • ↑ Rotar • Espacio Caída rápida</p>
+            <p id="controls-hint">Flechas para mover • ↑ Rotar • Espacio Caída rápida</p>
         </div>
     </div>
 
     <script src="tetrominoes.js"></script>
     <script src="board.js"></script>
+    <script src="i18n.js"></script>
     <script src="main.js"></script>
 </body>
 

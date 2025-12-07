@@ -19,6 +19,9 @@ let accountValues = {
     lines: 0
 };
 
+// Initialize i18n
+updateTexts();
+
 const MOVES = {
     [37]: p => ({ ...p, x: p.x - 1 }), // Left
     [39]: p => ({ ...p, x: p.x + 1 }), // Right
@@ -142,9 +145,9 @@ function updateAccount(key, value) {
 function gameOver() {
     cancelAnimationFrame(requestId);
 
-    document.getElementById('overlay-title').textContent = 'GAME OVER';
-    document.getElementById('overlay-message').textContent = `Puntuación: ${accountValues.score}`;
-    document.getElementById('start-btn').textContent = 'JUGAR DE NUEVO';
+    document.getElementById('overlay-title').textContent = TEXTS.gameOver;
+    document.getElementById('overlay-message').textContent = `${TEXTS.scoreMessage}${accountValues.score}`;
+    document.getElementById('start-btn').textContent = TEXTS.playAgain;
     document.getElementById('overlay').classList.remove('hidden');
 }
 

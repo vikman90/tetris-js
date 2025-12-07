@@ -91,6 +91,25 @@ class Board {
     }
 
     draw() {
+        // Draw grid lines
+        this.ctx.lineWidth = 0.06;
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+
+        // Vertical
+        for (let x = 1; x < 10; x++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, 0);
+            this.ctx.lineTo(x, 20);
+            this.ctx.stroke();
+        }
+        // Horizontal
+        for (let y = 1; y < 20; y++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y);
+            this.ctx.lineTo(10, y);
+            this.ctx.stroke();
+        }
+
         this.grid.forEach((row, y) => {
             row.forEach((value, x) => {
                 if (value !== 0) {
